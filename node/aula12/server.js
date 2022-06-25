@@ -1,3 +1,4 @@
+//mongodb+srv://breno:<password>@curso-javacript.0ffe7qv.mongodb.net/?retryWrites=true&w=majority
 const express = require('express')
 const app = express()
 const routes = require('./routes')
