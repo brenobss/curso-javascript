@@ -1,9 +1,17 @@
-//mongodb+srv://breno:<password>@curso-javacript.0ffe7qv.mongodb.net/?retryWrites=true&w=majority
+require('dotenv').config()
 const express = require('express')
 const app = express()
 const routes = require('./routes')
+const mongoose = require('mongoose')
 const { middlewareGlobal } = require('./src/middlewares/middleware')
 const port = 3000
+
+mongoose.connect(process.env.CONNECTSTRING)
+    .then(() => {
+        console.log('Conectado via mongoose')
+        app.emit('pronto')
+    })
+    .catch(e => console.log(e))
 
 app.use(express.urlencoded({ extended: true }))
 
@@ -16,6 +24,8 @@ app.set('view engine', 'ejs')
 app.use(middlewareGlobal)
 app.use(routes)
 
-app.listen(port, () => {
-    console.log(`Servidor rodando em http://localhost:${port}`)
+app.on('pronto', () => {
+    app.listen(port, () => {
+        console.log(`Servidor rodando em http://localhost:${port}`)
+    })
 })
